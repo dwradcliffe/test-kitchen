@@ -36,12 +36,15 @@ module Kitchen
     include Thor::Actions
     include Logging
 
+    class_option :root
+
     # Constructs a new instance.
     def initialize(*args)
       super
       $stdout.sync = true
       Kitchen.logger = Kitchen.default_file_logger
       @config = Kitchen::Config.new(
+        :kitchen_root => options[:root],
         :loader     => Kitchen::Loader::YAML.new(ENV['KITCHEN_YAML']),
         :log_level  => ENV['KITCHEN_LOG'] && ENV['KITCHEN_LOG'].downcase.to_sym
       )
